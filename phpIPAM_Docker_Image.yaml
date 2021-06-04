@@ -1,0 +1,21 @@
+FROM centos:latest
+
+
+RUN yum install epel-release
+
+RUN yum install httpd
+
+RUN yum install mariadb-server
+
+RUN yum install php php-cli php-gd php-common php-ldap php-pdo php-pear php-snmp php-xml php-mysqlND php-mbstring php-json php-gimp
+
+RUN yum install git
+
+RUN
+
+EXPOSE 80
+
+COPY
+
+
+ENTRYPOINT
