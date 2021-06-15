@@ -1,17 +1,24 @@
 FROM centos:latest
 
+RUN yum -y install epel-release
 
-RUN yum install epel-release
+RUN yum -y install httpd
 
-RUN yum install httpd
+RUN yum -y install mariadb-server
 
-RUN yum install mariadb-server
+RUN yum -y install php php-cli php-gd php-common php-ldap php-pdo php-pear php-snmp php-xml php-mysqlND php-mbstring php-json php-gimp
 
-RUN yum install php php-cli php-gd php-common php-ldap php-pdo php-pear php-snmp php-xml php-mysqlND php-mbstring php-json php-gimp
+RUN yum -y install git
 
-RUN yum install git
+RUN echo LC_ALL=en_US.utf-8 >> /etc/environment
+RUN echo LANG=en_US.utf-8 >> /etc/environment
 
-RUN
+RUN sed -i 's/
+date.timezone = America/Chicago
+
+sed -i 's/search_string/replace_string/' filename
+
+
 
 EXPOSE 80
 
@@ -19,3 +26,4 @@ COPY
 
 
 ENTRYPOINT
+
