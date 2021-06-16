@@ -14,11 +14,13 @@ RUN echo LC_ALL=en_US.utf-8 >> /etc/environment
 RUN echo LANG=en_US.utf-8 >> /etc/environment
 
 RUN sed -i 's/
+grep timezone /etc/php.ini
 date.timezone = America/Chicago
+
 
 sed -i 's/search_string/replace_string/' filename
 
-
+sed -i 's/";date.timezone ="/"date.timezone = America/Chicago"/'
 
 EXPOSE 80
 
@@ -26,4 +28,16 @@ COPY
 
 
 ENTRYPOINT
+thor@host01 ~/webapp-color$ cat Dockerfile
+FROM python:3.6-alpine
+
+RUN pip install flask
+
+COPY . /opt/
+
+EXPOSE 8080
+
+WORKDIR /opt
+
+ENTRYPOINT ["python", "app.py"]
 
