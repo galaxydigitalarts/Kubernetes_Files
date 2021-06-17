@@ -6,7 +6,7 @@ RUN yum -y install httpd
 
 RUN yum -y install mariadb-server
 
-RUN yum -y install php php-cli php-gd php-common php-ldap php-pdo php-pear php-snmp php-xml php-mysqlND php-mbstring php-json php-gimp
+RUN yum -y install php php-cli php-gd php-common php-ldap php-pdo php-pear php-snmp php-xml php-mysqlnd php-mbstring php-json php-gmp
 
 RUN yum -y install git
 
