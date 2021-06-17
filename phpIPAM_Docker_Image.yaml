@@ -1,14 +1,14 @@
 FROM centos:latest
 
-RUN yum -y install epel-release
+RUN dnf -y install epel-release
 
-RUN yum -y install httpd
+RUN dnf -y install httpd
 
-RUN yum -y install mariadb-server
+RUN dnf -y install mariadb-server
 
-RUN yum -y install php php-cli php-gd php-common php-ldap php-pdo php-pear php-snmp php-xml php-mysqlnd php-mbstring php-json php-gmp
+RUN dnf -y install php php-cli php-gd php-common php-ldap php-pdo php-pear php-snmp php-xml php-mysqlnd php-mbstring php-json php-gmp
 
-RUN yum -y install git
+RUN dnf -y install git
 
 RUN echo LC_ALL=en_US.utf-8 >> /etc/environment
 RUN echo LANG=en_US.utf-8 >> /etc/environment
