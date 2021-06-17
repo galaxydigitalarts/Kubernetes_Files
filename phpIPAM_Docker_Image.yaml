@@ -13,31 +13,40 @@ RUN yum -y install git
 RUN echo LC_ALL=en_US.utf-8 >> /etc/environment
 RUN echo LANG=en_US.utf-8 >> /etc/environment
 
-RUN sed -i 's/
-grep timezone /etc/php.ini
-date.timezone = America/Chicago
+RUN sed -i 's_;date.timezone =_date.timezone = America/Chicago_' /etc/php.ini
 
+RUN sed -i 's_#ServerName www.example.com:80_ServerName locahost:80_' /etc/httpd/conf/httpd.conf
 
-sed -i 's/search_string/replace_string/' filename
+RUN service httpd start
+RUN chkconfig httpd on
 
-sed -i 's/";date.timezone ="/"date.timezone = America/Chicago"/'
+RUN systemctl start httpd
+RUN systemctl enable httpd
+
+RUN systemctl stop firewalld
+RUN systemctl disable firewalld
+
+RUN service mariadb start
+RUN chkconfig mariadb on
+
+RUN systemctl start mariadb
+RUN systemctl enable mariadb
+
+RUN git clone https://github.com/phpipam/phpipam.git /var/www/html/
+RUN git checkout 1.5
+
+RUN chown apache:apache -R /var/www/html/
+RUN chcon -t httpd_sys_content_t /var/www/html/ –R
+
+RUN cd /var/www/html/
+RUN find . -type f -exec chmod 0644 {} \;
+RUN find . -type d -exec chmod 0755 {} \;
+
+RUN chcon -t httpd_sys_rw_content_t app/admin/import-export/upload/ -R
+RUN chcon -t httpd_sys_rw_content_t app/subnets/import-subnet/upload/ -R
+RUN chcon -t httpd_sys_rw_content_t css/1.4.2/images/logo/ -R
+
+COPY config.dist.php config.php
 
 EXPOSE 80
-
-COPY
-
-
-ENTRYPOINT
-thor@host01 ~/webapp-color$ cat Dockerfile
-FROM python:3.6-alpine
-
-RUN pip install flask
-
-COPY . /opt/
-
-EXPOSE 8080
-
-WORKDIR /opt
-
-ENTRYPOINT ["python", "app.py"]
 
