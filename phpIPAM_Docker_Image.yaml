@@ -17,30 +17,27 @@ RUN sed -i 's_;date.timezone =_date.timezone = America/Chicago_' /etc/php.ini
 
 RUN sed -i 's_#ServerName www.example.com:80_ServerName locahost:80_' /etc/httpd/conf/httpd.conf
 
-CMD systemctl start httpd
-CMD systemctl enable httpd
+#CMD systemctl start httpd
+#CMD systemctl enable httpd
 
-CMD systemctl stop firewalld
-CMD systemctl disable firewalld
+#CMD systemctl stop firewalld
+#CMD systemctl disable firewalld
 
-CMD systemctl start mariadb
-CMD systemctl enable mariadb
+#CMD systemctl start mariadb
+#CMD systemctl enable mariadb
 
 RUN git clone https://github.com/phpipam/phpipam.git /var/www/html/
-RUN git checkout 1.5
+RUN cd /var/www/html/ && git checkout 1.5
 
 RUN chown apache:apache -R /var/www/html/
-RUN chcon -t httpd_sys_content_t /var/www/html/ –R
 
-RUN cd /var/www/html/
-RUN find . -type f -exec chmod 0644 {} \;
-RUN find . -type d -exec chmod 0755 {} \;
+RUN cd /var/www/html/ && find . -type f -exec chmod 0644 {} \; && find . -type d -exec chmod 0755 {} \;
 
-RUN chcon -t httpd_sys_rw_content_t app/admin/import-export/upload/ -R
-RUN chcon -t httpd_sys_rw_content_t app/subnets/import-subnet/upload/ -R
-RUN chcon -t httpd_sys_rw_content_t css/1.4.2/images/logo/ -R
-
-COPY config.dist.php config.php
+RUN cd /var/www/html && cp config.dist.php config.php
 
 EXPOSE 80
+
+ENTRYPOINT /usr/sbin/init
+
+
 
